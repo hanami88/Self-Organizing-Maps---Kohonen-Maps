@@ -1,0 +1,11 @@
+# --- Frontend (React) ---
+node_modules/
+dist/
+.env
+
+# --- Backend (Python) ---
+__pycache__/
+*.py[cod]
+venv/
+.env
+.DS_Store
