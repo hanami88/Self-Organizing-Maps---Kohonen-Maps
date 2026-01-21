@@ -63,7 +63,6 @@ function SOMGrid({ weights, isTraining, trainingHistory }) {
           console.warn(`Invalid weight at [${i},${j}]:`, weight);
           continue;
         }
-
         // Convert weight thành màu RGB
         const r = Math.floor(Math.min(255, Math.max(0, weight[0] * 255)));
         const g = Math.floor(Math.min(255, Math.max(0, weight[1] * 255)));

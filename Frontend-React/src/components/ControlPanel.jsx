@@ -33,12 +33,10 @@ function ControlPanel({ onDataUploaded, onTrainingStart, onTrainingComplete }) {
 
   const handleTrain = async () => {
     onTrainingStart();
-
     try {
       const response = await axios.post("http://localhost:5001/api/train", {
         epochs: config.epochs,
       });
-
       if (response.data.success) {
         onTrainingComplete(response.data.results);
       }

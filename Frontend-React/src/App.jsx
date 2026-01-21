@@ -41,14 +41,13 @@ function App() {
         color: "white",
       }}
     >
-      <h1>🧠 SOM Visualization Tool</h1>
+      <h1>SOM Visualization Tool</h1>
 
       <ControlPanel
         onDataUploaded={handleDataUploaded}
         onTrainingStart={() => setIsTraining(true)}
         onTrainingComplete={handleTrainingComplete}
       />
-
       <div
         className="visualization-area"
         style={{ display: "flex", gap: "20px", marginTop: "20px" }}
@@ -58,7 +57,6 @@ function App() {
           isTraining={isTraining}
           trainingHistory={trainingHistory}
         />
-
         <Charts history={trainingHistory} />
       </div>
     </div>

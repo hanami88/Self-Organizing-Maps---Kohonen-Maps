@@ -1,7 +1,5 @@
 import numpy as np
 from minisom import MiniSom
-
-
 class SOMTrainer:
     def __init__(self, data, grid_size=(50, 50), learning_rate=0.5):
         self.data = data
@@ -22,7 +20,6 @@ class SOMTrainer:
     def train_with_history(self, total_epochs, snapshot_interval=10):
         """
         Training và lưu lại history để frontend hiển thị
-
         Returns:
             List of snapshots: [{epoch, weights, error}, ...]
         """
@@ -45,7 +42,7 @@ class SOMTrainer:
         return history
 
     def calculate_error(self):
-        """Tính quantization error"""
+        """Tính  error"""
         error = 0
         for x in self.data:
             bmu = self.som.winner(x)

@@ -8,10 +8,6 @@ CORS(app)
 
 som_trainer = None
 
-@app.route('/')
-def home():
-    return "<h1>Xin chào! Đây là Flask chạy trên PyCharm.</h1>"
-
 @app.route('/api/upload', methods=['POST'])
 def upload_data():
     try:
@@ -58,7 +54,6 @@ def train():
             return jsonify({'error': 'No data uploaded'}), 400
 
         print(f"Starting training for {epochs} epochs...")  # DEBUG
-
         # Training
         results = som_trainer.train_with_history(epochs, snapshot_interval=10)
 
