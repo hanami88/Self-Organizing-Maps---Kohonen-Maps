@@ -50,7 +50,7 @@ function App() {
       />
       <div
         className="visualization-area"
-        style={{ display: "flex", gap: "20px", marginTop: "20px" }}
+        style={{ display: "flex", gap: "19px", marginTop: "19px" }}
       >
         <SOMGrid
           weights={currentWeights}

@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from "react";
 function SOMGrid({ weights, isTraining, trainingHistory }) {
   const canvasRef = useRef(null);
   const [currentFrame, setCurrentFrame] = useState(0);
-
   // Vẽ khi có weights
   useEffect(() => {
     console.log("SOMGrid received weights:", weights); // DEBUG
