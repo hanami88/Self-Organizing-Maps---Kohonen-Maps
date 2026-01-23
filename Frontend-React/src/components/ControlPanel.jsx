@@ -4,8 +4,8 @@ import axios from "axios";
 function ControlPanel({ onDataUploaded, onTrainingStart, onTrainingComplete }) {
   const [file, setFile] = useState(null);
   const [config, setConfig] = useState({
-    grid_x: 50,
-    grid_y: 50,
+    grid_x: 10,
+    grid_y: 10,
     learning_rate: 0.5,
     epochs: 100,
   });
@@ -47,7 +47,7 @@ function ControlPanel({ onDataUploaded, onTrainingStart, onTrainingComplete }) {
 
   return (
     <div className="control-panel">
-      <h2>⚙️ Configuration</h2>
+      <h2>Configuration</h2>
 
       <div className="upload-section">
         <input
@@ -55,7 +55,7 @@ function ControlPanel({ onDataUploaded, onTrainingStart, onTrainingComplete }) {
           accept=".csv"
           onChange={(e) => setFile(e.target.files[0])}
         />
-        <button onClick={handleUpload}>📤 Upload Data</button>
+        <button onClick={handleUpload}>Upload Data</button>
       </div>
 
       <div className="config-section">

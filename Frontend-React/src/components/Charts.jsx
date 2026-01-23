@@ -34,6 +34,10 @@ function Charts({ history }) {
         data: history.map((h) => h.error),
         borderColor: "rgb(75, 192, 192)",
         tension: 0.1,
+        pointRadius: 6, // Mặc định là 3, tăng lên 6
+        pointHoverRadius: 8, // Khi di chuột vào
+        pointBorderWidth: 2,
+        pointHoverBorderWidth: 3,
       },
     ],
   };
@@ -46,12 +50,20 @@ function Charts({ history }) {
         text: "Training Error Over Time",
       },
     },
+    scales: {
+      y: {
+        // Trục tung
+        beginAtZero: true, // Bắt buộc trục Y bắt đầu từ số 0 (thay vì số nhỏ nhất của data)
+      },
+    },
   };
 
   return (
-    <div className="charts">
+    <div className="charts" style={{ height: "400px", width: "100%", flex: 1 }}>
       <h2>📈 Statistics</h2>
-      <Line data={data} options={options} />
+      <div style={{ position: "relative", height: "100%", width: "100%" }}>
+        <Line data={data} options={options} />
+      </div>
     </div>
   );
 }
