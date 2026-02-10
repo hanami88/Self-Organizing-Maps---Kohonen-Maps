@@ -1,2 +1,2 @@
-## Self-Organizing-Maps---Kohonen-Maps
+## Self-Organizing-Maps-Kohonen-Maps
 
