@@ -17,7 +17,6 @@ data_max = None
 def upload_data():
     try:
         file = request.files['file']
-
         # --- CÁCH MỚI: DÙNG PANDAS (Dễ và Chuẩn nhất) ---
         # Pandas tự động tách Header và Data
         df = pd.read_csv(file)
@@ -60,10 +59,7 @@ def upload_data():
             'success': True,
             'message': 'Data uploaded successfully',
             'data_shape': list(raw_data.shape),
-
-            # --- THÊM DÒNG NÀY ĐỂ GỬI VỀ CLIENT ---
             'columns': headers,
-
             'min_values': data_min.tolist(),
             'max_values': data_max.tolist(),
             'weights': initial_weights.tolist()
@@ -83,24 +79,20 @@ def train():
             return jsonify({'error': 'No data uploaded'}), 400
 
         print(f"Starting training for {epochs} epochs...")
-
         # Logic tính interval thông minh như đã bàn
         # Luôn đảm bảo lấy khoảng 50 frames để vẽ đồ thị cho đẹp
         interval = max(1, int(epochs / 20))
 
         results = som_trainer.train_with_history(epochs, interval)
-
         print(f"Training complete! Results: {len(results)} snapshots")
-
         return jsonify({
             'success': True,
             'results': results
         })
-
     except Exception as e:
         print(f"Training error: {str(e)}")
         return jsonify({'error': str(e)}), 400
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5002)
