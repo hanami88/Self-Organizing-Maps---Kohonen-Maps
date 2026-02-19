@@ -1,6 +1,6 @@
 import Nav from "../components/Nav";
 import { Link } from "react-router-dom";
-import { Button } from "../components/Button";
+import { ButtonBlack, ButtonBlue } from "../components/Button";
 import { ArrowRight, Brain, Upload, BarChart3 } from "lucide-react";
 export default function Index() {
   return (
@@ -20,17 +20,17 @@ export default function Index() {
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/upload" className="flex-1 sm:flex-none">
-                <Button color="blue" className="px-[1rem] py-[0.6rem]">
+                <ButtonBlue className="px-[1rem] py-[0.6rem] flex justify-between items-center">
                   <Upload className="w-5 h-5 mr-[0.5rem]" />
                   <div>Start with Data Upload</div>
                   <ArrowRight className="w-4 h-4 ml-[0.5rem]" />
-                </Button>
+                </ButtonBlue>
               </Link>
               <Link to="/training" className="flex-1 sm:flex-none">
-                <Button color="black" className="px-[1rem] py-[0.6rem]">
+                <ButtonBlack className="px-[1rem] py-[0.6rem] flex justify-between items-center">
                   <Brain className="w-5 h-5 mr-[0.5rem]" />
                   View Training Page
-                </Button>
+                </ButtonBlack>
               </Link>
             </div>
           </div>
@@ -129,10 +129,10 @@ export default function Index() {
             to begin the training process.
           </p>
           <Link to="/upload" className="inline-block">
-            <Button color="blue" className="gap-2 px-[1rem] py-[0.6rem]">
+            <ButtonBlue className="gap-2 px-[1rem] py-[0.6rem] flex justify-between items-center">
               Begin Data Upload
               <ArrowRight className="w-5 h-5" />
-            </Button>
+            </ButtonBlue>
           </Link>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button } from "./Button";
+import {  ButtonBlack} from "./Button";
 import { useLocation } from "react-router-dom";
 
 export default function Nav() {
@@ -21,7 +21,7 @@ export default function Nav() {
         </div>
         <div className="flex items-center gap-4">
           <Link to={`${currentRoute.backTo}`}>
-            <Button color="black">{currentRoute.label}</Button>
+            <ButtonBlack>{currentRoute.label}</ButtonBlack>
           </Link>
         </div>
       </div>
