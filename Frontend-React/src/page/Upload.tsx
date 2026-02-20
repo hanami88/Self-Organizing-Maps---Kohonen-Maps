@@ -4,16 +4,21 @@ import { ArrowLeft, Upload as UploadIcon, FileUp } from "lucide-react";
 
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
-  const [inputVector, setInputVector] = useState<number>(1);
+  const [inputVector, setInputVector] = useState<number | null>(null);
   const [numberOfData, setNumberOfData] = useState<number | null>(null);
   const [minValue, setMinValue] = useState<number>(0);
   const [maxValue, setMaxValue] = useState<number>(0);
-
-  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const [data, setData] = useState<string[][] | null>(null);
+  const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile = e.target.files?.[0] || null;
+    const text = await currentFile?.text();
+    const rows = text?.trim().split("\n");
+    const crData = rows?.map((i) => i.split(","));
+    setData(crData || null);
+    setNumberOfData(rows?.length ? rows.length - 1 : null);
+    setInputVector(crData?.[0].length ? crData?.[0].length : null);
     setFile(currentFile);
   };
-
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="mb-8">
@@ -24,9 +29,7 @@ export default function Upload() {
           Prepare your dataset and configure normalization parameters
         </p>
       </div>
-
       <div className="grid lg:grid-cols-2 gap-8">
-        {/* Left Column */}
         <div className="space-y-6">
           <div className="p-6 bg-white rounded-lg border-[0.1rem] border-black/20">
             <h3 className="font-semibold text-lg mb-6 text-foreground">
@@ -60,7 +63,6 @@ export default function Upload() {
                 </ButtonBlack>
               </div>
             </div>
-
             <div className="space-y-2 mb-6 flex flex-col">
               <label htmlFor="dimensions" className="text-sm font-medium">
                 Input Vector Dimensions
@@ -69,11 +71,9 @@ export default function Upload() {
                 id="dimensions"
                 type="number"
                 min="1"
-                value={inputVector}
-                className="border-black border-[0.1rem] rounded-md h-[40px] px-[12px] py-[8px]"
-                onChange={(e) => {
-                  setInputVector(e.target.valueAsNumber);
-                }}
+                disabled
+                value={inputVector || ""}
+                className="border-black cursor-not-allowed border-[0.1rem] bg-[rgb(220, 231, 233)] rounded-md h-[40px] px-[12px] py-[8px]"
               />
               <p className="text-xs text-muted-foreground">
                 Number of features per data point
@@ -89,9 +89,6 @@ export default function Upload() {
                 type="number"
                 disabled
                 value={numberOfData || ""}
-                onChange={(e) => {
-                  setNumberOfData(e.target.valueAsNumber);
-                }}
                 className="border-black border-[0.1rem] cursor-not-allowed bg-[rgb(220, 231, 233)] rounded-md h-[40px] px-[12px] py-[8px]"
               />
               <p className="text-xs text-muted-foreground">
@@ -153,7 +150,7 @@ export default function Upload() {
             <h3 className="font-semibold text-lg mb-4 text-foreground">
               Data Preview
             </h3>
-            {(!numberOfData || numberOfData < 0) && (
+            {!numberOfData || numberOfData < 0 ? (
               <div className="h-80 flex items-center justify-center text-center">
                 <div>
                   <UploadIcon className="w-12 h-12 text-muted-foreground/50 mx-auto mb-4" />
@@ -165,13 +162,47 @@ export default function Upload() {
                   </p>
                 </div>
               </div>
-            )}
-            {numberOfData && numberOfData > 0 && (
+            ) : (
               <>
-                <div className="overflow-y-auto max-h-96">
-                  {/* Table preview sẽ ở đây */}
-                </div>
+                <div className="max-h-96 overflow-y-auto border border-black">
+                  <table className="w-full border-collapse text-sm">
+                    <thead className="sticky top-0 bg-gray-200 z-10">
+                      <tr>
+                        <th className="border border-black px-3 py-2 text-center font-semibold w-12">
+                          #
+                        </th>
+                        {data &&
+                          data[0].map((header, index) => (
+                            <th
+                              key={index}
+                              className="border border-black px-3 py-2 text-left font-semibold"
+                            >
+                              {header}
+                            </th>
+                          ))}
+                      </tr>
+                    </thead>
 
+                    <tbody>
+                      {data &&
+                        data.map((row, rowIndex) => (
+                          <tr key={rowIndex} className="hover:bg-gray-50">
+                            <td className="border border-black px-3 py-2 text-center font-medium">
+                              {rowIndex + 1}
+                            </td>
+                            {row.map((cell, cellIndex) => (
+                              <td
+                                key={cellIndex}
+                                className="border border-black px-3 py-2"
+                              >
+                                {cell}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
                 <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
                   <p className="text-sm text-green-800 font-medium">
                     ✓ Data loaded successfully
