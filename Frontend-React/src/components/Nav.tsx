@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import {  ButtonBlack} from "./Button";
+import { ButtonBlack } from "./Button";
 import { useLocation } from "react-router-dom";
 
 export default function Nav() {
@@ -7,7 +7,7 @@ export default function Nav() {
   const routesWithBack = {
     "/": { backTo: "/upload", label: "Get Started" },
     "/upload": { backTo: "/", label: "Home" },
-    "/train": { backTo: "/upload", label: "Back to Upload" },
+    "/training": { backTo: "/upload", label: "Back to Upload" },
   };
   const currentRoute = routesWithBack[location as keyof typeof routesWithBack];
   return (

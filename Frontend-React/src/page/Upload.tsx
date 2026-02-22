@@ -1,23 +1,35 @@
 import { useState } from "react";
 import { ButtonBlack, ButtonBlue } from "../components/Button";
 import { ArrowLeft, Upload as UploadIcon, FileUp } from "lucide-react";
-
 export default function Upload() {
   const [file, setFile] = useState<File | null>(null);
   const [inputVector, setInputVector] = useState<number | null>(null);
   const [numberOfData, setNumberOfData] = useState<number | null>(null);
-  const [minValue, setMinValue] = useState<number>(0);
-  const [maxValue, setMaxValue] = useState<number>(0);
-  const [data, setData] = useState<string[][] | null>(null);
+  const [normalization, setNormalization] = useState<string>("Linear");
+  const [data, setData] = useState<number[][] | null>(null);
   const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile = e.target.files?.[0] || null;
     const text = await currentFile?.text();
     const rows = text?.trim().split("\n");
-    const crData = rows?.map((i) => i.split(","));
+    const crData = rows?.map((row) => row.split(",").map(Number));
     setData(crData || null);
     setNumberOfData(rows?.length ? rows.length - 1 : null);
     setInputVector(crData?.[0].length ? crData?.[0].length : null);
     setFile(currentFile);
+  };
+  const handleProceedToTraining = () => {
+    if (data?.length === 0 || !data) {
+      alert("Please upload data first");
+      return;
+    }
+    sessionStorage.setItem(
+      "somData",
+      JSON.stringify({
+        data: data,
+        inputVector: inputVector,
+      }),
+    );
+    window.location.href = "/training";
   };
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -97,50 +109,38 @@ export default function Upload() {
                   : "Upload data to see number of Data Points"}
               </p>
             </div>
-
             <div className="space-y-4 pt-6 border-t border-blue-100">
               <h4 className="font-medium text-foreground text-sm">
                 Normalization Range
               </h4>
               <div className="space-y-2 flex flex-col">
                 <label htmlFor="minval" className="text-sm">
-                  Minimum Value
+                  Data Normalization
                 </label>
-                <input
-                  id="minval"
-                  type="number"
-                  step="0.01"
-                  value={minValue}
-                  onChange={(e) => {
-                    setMinValue(e.target.valueAsNumber);
-                  }}
+                <select
                   className="border-black border-[0.1rem] rounded-md h-[40px] px-[12px] py-[8px]"
-                />
-              </div>
-
-              <div className="space-y-2 flex flex-col">
-                <label htmlFor="maxval" className="text-sm">
-                  Maximum Value
-                </label>
-                <input
-                  id="maxval"
-                  type="number"
-                  step="0.01"
-                  value={maxValue}
+                  name=""
+                  id=""
+                  value={normalization}
                   onChange={(e) => {
-                    setMaxValue(e.target.valueAsNumber);
+                    setNormalization(e.target.value);
                   }}
-                  className="border-black border-[0.1rem] rounded-md h-[40px] px-[12px] py-[8px]"
-                />
+                >
+                  <option value="Linear">Linear</option>
+                  <option value="Sigmoid">Sigmoid</option>
+                  <option value="Ln">Ln</option>
+                  <option value="Log10">Log10</option>
+                  <option value="Sqrt">Sqrt</option>
+                  <option value="Arctan">Arctan</option>
+                </select>
               </div>
-
-              <p className="text-xs text-muted-foreground">
-                Data will be normalized to [{minValue}, {maxValue}] range
-              </p>
             </div>
           </div>
 
-          <ButtonBlue className="w-full h-12 flex justify-center items-center">
+          <ButtonBlue
+            className="w-full h-12 flex justify-center items-center"
+            onClick={handleProceedToTraining}
+          >
             <UploadIcon className="w-5 h-5 mr-2" />
             Proceed to Training
           </ButtonBlue>
@@ -182,7 +182,6 @@ export default function Upload() {
                           ))}
                       </tr>
                     </thead>
-
                     <tbody>
                       {data &&
                         data.map((row, rowIndex) => (
