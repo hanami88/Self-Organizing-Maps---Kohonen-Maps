@@ -416,7 +416,9 @@ export default function Training() {
                           border: "1px solid #cbd5e1",
                           borderRadius: "8px",
                         }}
-                        formatter={(value: number) => value.toFixed(4)}
+                        formatter={(value: number | undefined) =>
+                          value !== undefined ? value.toFixed(4) : "0"
+                        }
                       />
                       <Line
                         type="monotone"
