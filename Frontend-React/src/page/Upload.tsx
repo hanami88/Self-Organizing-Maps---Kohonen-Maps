@@ -6,13 +6,13 @@ export default function Upload() {
   const [inputVector, setInputVector] = useState<number | null>(null);
   const [numberOfData, setNumberOfData] = useState<number | null>(null);
   const [normalization, setNormalization] = useState<string>("Linear");
-  const [data, setData] = useState<number[][] | null>(null);
+  const [data, setData] = useState<number[][]>([[]]);
   const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile = e.target.files?.[0] || null;
     const text = await currentFile?.text();
     const rows = text?.trim().split("\n");
     const crData = rows?.map((row) => row.split(",").map(Number));
-    setData(crData || null);
+    if (crData) setData(crData);
     setNumberOfData(rows?.length ? rows.length - 1 : null);
     setInputVector(crData?.[0].length ? crData?.[0].length : null);
     setFile(currentFile);
@@ -25,7 +25,7 @@ export default function Upload() {
     sessionStorage.setItem(
       "somData",
       JSON.stringify({
-        data: data,
+        data: data.slice(1),
         inputVector: inputVector,
       }),
     );

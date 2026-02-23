@@ -13,9 +13,9 @@ class SOMTrainer:
             learning_rate=learning_rate
         )
         self.som.pca_weights_init(data)
-    def train_with_history(self, total_epochs, snapshot_interval=10):
+    def train_with_history(self, total_iterations, snapshot_interval=10):
         history = []
-        for epoch in range(0, total_epochs, snapshot_interval):
+        for iteration in range(0, total_iterations, snapshot_interval):
             # Train một đợt
             self.som.train_random(self.data, snapshot_interval)
             # Tính error
@@ -23,7 +23,7 @@ class SOMTrainer:
             u_matrix = self.get_u_matrix()
             # Lưu snapshot
             history.append({
-                'epoch': epoch + snapshot_interval,
+                'iteration': iteration + snapshot_interval,
                 'error': float(error),
                 'u_matrix': u_matrix
             })
