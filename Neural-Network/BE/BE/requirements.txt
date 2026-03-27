@@ -1,0 +1,7 @@
+flask==3.0.3
+flask-cors==4.0.1
+flask-socketio==5.3.6
+torch==2.3.0
+torchvision==0.18.0
+numpy==1.26.4
+minisom==2.3.1

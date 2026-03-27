@@ -6,12 +6,20 @@ export default function Upload() {
   const [inputVector, setInputVector] = useState<number | null>(null);
   const [numberOfData, setNumberOfData] = useState<number | null>(null);
   const [normalization, setNormalization] = useState<string>("Linear");
-  const [data, setData] = useState<number[][]>([[]]);
+  const [data, setData] = useState<(number | string)[][]>([[]]);
   const handleChangeFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const currentFile = e.target.files?.[0] || null;
     const text = await currentFile?.text();
     const rows = text?.trim().split("\n");
-    const crData = rows?.map((row) => row.split(",").map(Number));
+    const crData = rows?.map((row) =>
+      row.split(",").map((item) => {
+        const trimmed = item.trim();
+        if (trimmed === "") return item;
+        const num = Number(trimmed);
+        return isNaN(num) ? item : num;
+      }),
+    );
+    console.log(crData);
     if (crData) setData(crData);
     setNumberOfData(rows?.length ? rows.length - 1 : null);
     setInputVector(crData?.[0].length ? crData?.[0].length : null);
@@ -91,7 +99,6 @@ export default function Upload() {
                 Number of features per data point
               </p>
             </div>
-
             <div className="space-y-2 mb-6 flex flex-col">
               <label htmlFor="quantity" className="text-sm font-medium">
                 Number of Data Points
