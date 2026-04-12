@@ -1,2 +1,1 @@
-## Self-Organizing-Maps---Kohonen-Maps
-
+## SOM-Visualizer
